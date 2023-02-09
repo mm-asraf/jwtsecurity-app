@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 public class UserResponse {
+	
 	private String message;
 	private HttpStatus statusCode;
+	
 }

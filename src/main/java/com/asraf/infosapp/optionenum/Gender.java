@@ -7,7 +7,7 @@ public enum Gender {
 	MALE("male"),
 	FEMALE("female"),
 	OTHER("other");
-	
+
 	private String typeVar;
 	private Gender(String type) {
 		this.typeVar = type;

@@ -11,5 +11,5 @@ public enum MaritialStatus {
 	private MaritialStatus(String type) {
 		this.typeVar = type;
 	}
-	
+
 }

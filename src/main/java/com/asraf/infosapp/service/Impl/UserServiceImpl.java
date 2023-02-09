@@ -1,12 +1,9 @@
 package com.asraf.infosapp.service.Impl;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import com.asraf.infosapp.exception.RecordNotFoundException;
 import com.asraf.infosapp.model.User;
 import com.asraf.infosapp.model.common.UserRequest;
@@ -19,7 +16,7 @@ public class UserServiceImpl implements IUserService {
 
 	@Autowired
 	IUserRepository iUserRepository;
-	
+
 	@Override
 	public UserResponse createUser(UserRequest user) {
 		User userData = User.builder()
@@ -51,7 +48,7 @@ public class UserServiceImpl implements IUserService {
 					.build();
 			iUserRepository.save(updateUserData);
 		}, ()-> {throw new RecordNotFoundException("user data is not present");});
-		
+
 		return UserResponse.builder().message("user data updated successfully").statusCode(HttpStatus.OK).build();
 	}
 
@@ -60,25 +57,17 @@ public class UserServiceImpl implements IUserService {
 		return (List<User>) iUserRepository.findAll();
 	}
 
-	
+
 	@Override
 	public User getSingleUser(long userId) {
-		Optional<User> optionalUser = iUserRepository.findById(userId);
-		if(optionalUser.isPresent()) {
-			User dbUser = optionalUser.get();
-			return dbUser;
-		}else {
-			throw new RecordNotFoundException("user id is not valid");
-		}
+		return iUserRepository.findById(userId).orElseThrow(()-> {throw new RecordNotFoundException("invalid userid");});
+
 	}
 
 	@Override
-	public User deleteUser(long userId) {
-		return null;
+	public void deleteUser(long userId) {
+		User user = iUserRepository.findById(userId).orElseThrow(()-> {throw new RecordNotFoundException("invalid user id");});
+		iUserRepository.delete(user);
 	}
-
-	
-
-	
 
 }

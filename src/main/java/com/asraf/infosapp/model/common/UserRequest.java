@@ -7,6 +7,7 @@ import lombok.Getter;
 
 @Getter
 public class UserRequest {
+	
 	private String firstName;
 	private String lastName;
 	private String email;
@@ -15,4 +16,5 @@ public class UserRequest {
 	private MaritialStatus maritialStatus;
 	private String bitcoinPassword;
 	private String etherWalletPassword;
+	
 }
