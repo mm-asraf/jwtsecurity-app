@@ -14,7 +14,7 @@ public class UserRequest {
 	private String mobile;
 	private Gender gender ;
 	private MaritialStatus maritialStatus;
-	private String bitcoinPassword;
-	private String etherWalletPassword;
+	private String password;
+	
 	
 }

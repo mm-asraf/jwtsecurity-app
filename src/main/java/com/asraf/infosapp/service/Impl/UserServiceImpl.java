@@ -3,9 +3,11 @@ package com.asraf.infosapp.service.Impl;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
 import com.asraf.infosapp.exception.RecordNotFoundException;
 import com.asraf.infosapp.model.User;
 import com.asraf.infosapp.model.common.UserRequest;
@@ -27,27 +29,23 @@ public class UserServiceImpl implements IUserService {
 	public UserResponse createUser(UserRequest user)  {
 
 		//salt
-		byte[] saltForBitcoin = PasswordEncoder.generateSalt();
-		byte[] saltForEther = PasswordEncoder.generateSalt();
-
+		byte[] saltForPassword = PasswordEncoder.generateSalt();
+		
 		//encoded password
-		String encodedBitcoinPassword = null;
-		String encodedEtherWalletPassword = null;
-
-		char[] password = user.getBitcoinPassword().toCharArray();
-		char [] etherPassword = user.getEtherWalletPassword().toCharArray();
-
+		String encodedPassword = null;
+		
+		char[] password = user.getPassword().toCharArray();
+		
 		try {
-			encodedBitcoinPassword = PasswordEncoder.encode(password, saltForBitcoin);
-			encodedEtherWalletPassword = PasswordEncoder.encode(etherPassword, saltForEther);
+			encodedPassword = PasswordEncoder.encode(password, saltForPassword);
+			
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		} catch (InvalidKeySpecException e) {
 			e.printStackTrace();
 		}
-		log.info("encoded bit coinPassword"+ " " +  encodedBitcoinPassword);
-		log.info("encoded ether coinPassword"+ " " +  encodedEtherWalletPassword);
-
+		log.info("encoded bit coinPassword"+ " " +  encodedPassword);
+		
 		User userData = User.builder()
 				.firstName(user.getFirstName())
 				.lastName(user.getLastName())
@@ -55,8 +53,7 @@ public class UserServiceImpl implements IUserService {
 				.mobile(user.getMobile())
 				.gender(user.getGender())
 				.maritialStatus(user.getMaritialStatus())
-				.bitcoinPassword(encodedBitcoinPassword)
-				.etherWalletPassword(encodedEtherWalletPassword)
+				.password(encodedPassword)
 				.build();
 		iUserRepository.save(userData);
 		return UserResponse.builder().message("user added successfully").statusCode(HttpStatus.OK).build();
@@ -71,20 +68,18 @@ public class UserServiceImpl implements IUserService {
 
 
 			//salt
-			byte[] saltForBitcoin = PasswordEncoder.generateSalt();
-			byte[] saltForEther = PasswordEncoder.generateSalt();
-
+			byte[] saltForUpdatedPassword = PasswordEncoder.generateSalt();
+			
 
 			//encoded password
-			String updatedEncodedBitcoinPassword = null;
-			String updatedEncodedEtherWalletPassword = null;
+			String updatedEncodedPassword = null;
+			
 
-			char[] password = user.getBitcoinPassword().toCharArray();
-			char [] etherPassword = user.getEtherWalletPassword().toCharArray();
-
+			char[] password = user.getPassword().toCharArray();
+		
 			try {
-				updatedEncodedBitcoinPassword = PasswordEncoder.encode(password, saltForBitcoin);
-				updatedEncodedEtherWalletPassword = PasswordEncoder.encode(etherPassword, saltForEther);
+				updatedEncodedPassword = PasswordEncoder.encode(password, saltForUpdatedPassword);
+
 			} catch (NoSuchAlgorithmException e) {
 				e.printStackTrace();
 			} catch (InvalidKeySpecException e) {
@@ -98,8 +93,7 @@ public class UserServiceImpl implements IUserService {
 					.mobile(user.getMobile())
 					.gender(user.getGender())
 					.maritialStatus(user.getMaritialStatus())
-					.bitcoinPassword(updatedEncodedBitcoinPassword)
-					.etherWalletPassword(updatedEncodedEtherWalletPassword)
+					.password(updatedEncodedPassword)
 					.build();
 			iUserRepository.save(updateUserData);
 		}, ()-> {throw new RecordNotFoundException("user data is not present");});
@@ -124,5 +118,7 @@ public class UserServiceImpl implements IUserService {
 		User user = iUserRepository.findById(userId).orElseThrow(()-> {throw new RecordNotFoundException("invalid user id");});
 		iUserRepository.delete(user);
 	}
+
+	
 
 }

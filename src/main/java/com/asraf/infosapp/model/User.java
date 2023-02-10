@@ -1,15 +1,23 @@
 package com.asraf.infosapp.model;
 
+import java.util.Collection;
+
+import javax.management.relation.Role;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GeneratorType;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.asraf.infosapp.optionenum.Gender;
 import com.asraf.infosapp.optionenum.MaritialStatus;
@@ -23,7 +31,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+@Table(name="_user")
+public class User  {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,9 +67,12 @@ public class User {
 	@NotEmpty
 //	@Pattern(regexp = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}",message="a digit, a lower case letter,an upper case letter,a special character and must occur at least once and no whitespace allowed in the entire string, 8 character minimum")
 //	@Pattern(regexp="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\\\S+$).{8,}$", message="Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character and must be at least 8 characters long")
-	private String bitcoinPassword;
+	private String password;
 	
-	@NotEmpty
-//	@Pattern(regexp = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\\\S+$).{8,}", message="a digit, a lower case letter,an upper case letter,a special character and must occur at least once and no whitespace allowed in the entire string, 8 character minimum")
-	private String etherWalletPassword;
+	@Enumerated(EnumType.STRING)
+	private Role role;
+
+	
+	
+	
 }

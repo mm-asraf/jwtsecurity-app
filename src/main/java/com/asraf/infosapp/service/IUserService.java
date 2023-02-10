@@ -2,8 +2,6 @@ package com.asraf.infosapp.service;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
-
 import com.asraf.infosapp.model.User;
 import com.asraf.infosapp.model.common.UserRequest;
 import com.asraf.infosapp.model.common.UserResponse;

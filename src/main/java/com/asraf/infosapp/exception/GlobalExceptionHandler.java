@@ -15,6 +15,7 @@ import javax.validation.ConstraintViolationException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -55,29 +56,43 @@ public class GlobalExceptionHandler {
 	 * @return : its return response entity of Map.
 	 */
 	
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<Map<String, String>> validationExceptionMessage(
-			MethodArgumentNotValidException nValid){
-		Map<String, String> msgList = new HashMap<>();
-		nValid.getBindingResult().getFieldErrors()
-		.forEach(error -> msgList.put(error.getField(), error.getDefaultMessage()));
-		return new ResponseEntity<>(msgList, HttpStatus.BAD_REQUEST);
-	}	
+//	@ResponseStatus(HttpStatus.BAD_REQUEST)
+//	@ExceptionHandler(MethodArgumentNotValidException.class)
+//	public ResponseEntity<Map<String, String>> validationExceptionMessage(
+//			MethodArgumentNotValidException nValid){
+//		Map<String, String> msgList = new HashMap<>();
+//		nValid.getBindingResult().getFieldErrors()
+//		.forEach(error -> msgList.put(error.getField(), error.getDefaultMessage()));
+//		return new ResponseEntity<>(msgList, HttpStatus.BAD_REQUEST);
+//	}	
 	
-	@ExceptionHandler(ConstraintViolationException.class)
-	public ResponseEntity<Map<String, String>> constraintValidationExceptionMessage(
-			ConstraintViolationException nValid
-			){
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<Map<String,String>> handleMethodArgsNotValidException(MethodArgumentNotValidException ex) {
+		Map<String,String> resp = new HashMap<>();
 		
-		Map<String, String> msgList = new HashMap<>();
-		Set<ConstraintViolation<?>> constraintViolations = nValid.getConstraintViolations();
-		int n = 1;
-		for (ConstraintViolation<?> constraintViolation : constraintViolations) {
-			msgList.put("messase "+ n++, constraintViolation.getMessage());
-		}
-
-		return new ResponseEntity<>(msgList, HttpStatus.BAD_REQUEST);
+		ex.getBindingResult().getAllErrors().forEach((error)-> {
+			String fieldName = ((FieldError )error).getField();
+			String message = error.getDefaultMessage();
+			
+			resp.put(fieldName, message);
+		});
+		
+		return new ResponseEntity<Map<String,String>>(resp,HttpStatus.BAD_REQUEST);
 	}
+	
+//	@ExceptionHandler(ConstraintViolationException.class)
+//	public ResponseEntity<Map<String, String>> constraintValidationExceptionMessage(
+//			ConstraintViolationException nValid
+//			){
+//		
+//		Map<String, String> msgList = new HashMap<>();
+//		Set<ConstraintViolation<?>> constraintViolations = nValid.getConstraintViolations();
+//		int n = 1;
+//		for (ConstraintViolation<?> constraintViolation : constraintViolations) {
+//			msgList.put("messase "+ n++, constraintViolation.getMessage());
+//		}
+//
+//		return new ResponseEntity<>(msgList, HttpStatus.BAD_REQUEST);
+//	}
 	
 }
