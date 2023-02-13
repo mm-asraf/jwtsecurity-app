@@ -71,12 +71,9 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	public AuthenticationResponse authenticate(AuthenticationRequest user) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	
-
-
-
 }
