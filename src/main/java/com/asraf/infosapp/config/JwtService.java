@@ -6,6 +6,8 @@ import java.security.Key;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.Date;
+import java.util.HashMap;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import io.jsonwebtoken.io.Decoders;
@@ -43,6 +45,10 @@ public class JwtService {
 		return Keys.hmacShaKeyFor(keyBytes);
 	}
 	
+	public String generateToken(UserDetails userDetails) {
+		return generateToken(new HashMap<>(),userDetails);
+	}
+	
 	public String generateToken(
 			Map<String, Object> extraClaims,
 			UserDetails userDetails
@@ -57,6 +63,19 @@ public class JwtService {
 				.signWith(getSignInKey(),SignatureAlgorithm.HS256)
 				.compact();
 				
+	}
+	
+	private boolean isTokenExpired(String token) {
+		return extractExpirtation(token).before(new Date());
+	}
+	
+	private Date extractExpirtation(String token) {
+		return extractClaim(token, Claims::getExpiration);
+	}
+	
+	private boolean isTokenValid(String token,UserDetails userDetails) {
+		final String userName = extractUsername(token);
+		return (userName.equals(userDetails.getUsername())) && !isTokenExpired(token);
 	}
 
 	
