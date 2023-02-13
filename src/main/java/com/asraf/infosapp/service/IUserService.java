@@ -11,5 +11,6 @@ import com.asraf.infosapp.model.common.UserResponse;
 
 public interface IUserService {
 	public AuthenticationResponse createUser(UserRequest user);
+	public AuthenticationResponse authenticate(AuthenticationRequest user);
 	
 }

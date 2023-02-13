@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.asraf.infosapp.config.JwtService;
 import com.asraf.infosapp.model.User;
+import com.asraf.infosapp.model.common.AuthenticationRequest;
 import com.asraf.infosapp.model.common.AuthenticationResponse;
 import com.asraf.infosapp.model.common.UserRequest;
 import com.asraf.infosapp.optionenum.Role;
@@ -68,7 +69,13 @@ public class UserServiceImpl implements IUserService {
 		return AuthenticationResponse.builder().token(jwtToken).message("You Register Successfully").build();
 	}
 
+	@Override
+	public AuthenticationResponse authenticate(AuthenticationRequest user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
+	
 
 
 
