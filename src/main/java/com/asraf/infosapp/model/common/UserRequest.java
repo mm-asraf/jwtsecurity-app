@@ -2,7 +2,6 @@ package com.asraf.infosapp.model.common;
 
 import com.asraf.infosapp.optionenum.Gender;
 import com.asraf.infosapp.optionenum.MaritialStatus;
-
 import lombok.Getter;
 
 @Getter
@@ -15,6 +14,5 @@ public class UserRequest {
 	private Gender gender ;
 	private MaritialStatus maritialStatus;
 	private String password;
-	
 	
 }

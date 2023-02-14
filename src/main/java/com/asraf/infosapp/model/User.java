@@ -65,7 +65,6 @@ public class User implements UserDetails {
 
 	@NotEmpty
 	//	@Pattern(regexp = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}",message="a digit, a lower case letter,an upper case letter,a special character and must occur at least once and no whitespace allowed in the entire string, 8 character minimum")
-	//	@Pattern(regexp="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\\\S+$).{8,}$", message="Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character and must be at least 8 characters long")
 	private String password;
 
 	@Enumerated(EnumType.STRING)
@@ -106,8 +105,5 @@ public class User implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
-
-
-
 
 }
