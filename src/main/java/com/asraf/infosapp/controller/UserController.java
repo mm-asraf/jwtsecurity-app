@@ -32,6 +32,11 @@ public class UserController {
 		return new ResponseEntity(userResponse, status);
 	}
 
-	
+	@PostMapping("/authenticate")
+	public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
+		AuthenticationResponse authResponse = iuserService.authenticate(request);
+		HttpStatus status = authResponse.getStatusCode() != null ? authResponse.getStatusCode() : HttpStatus.BAD_REQUEST;
+		return new ResponseEntity<>(authResponse,status);
+	}
 
 }

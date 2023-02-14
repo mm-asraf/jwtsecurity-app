@@ -28,7 +28,7 @@ public class SecurityConfiguration {
 		.cors()
 		.disable()
 		.authorizeHttpRequests()
-		.antMatchers("/api/v1/user")
+		.requestMatchers("/api/v1/user","/api/v1/authenticate")
 		.permitAll()
 		.anyRequest()
 		.authenticated()
@@ -38,7 +38,6 @@ public class SecurityConfiguration {
 		.and()
 		.authenticationProvider(authenticationProvider)
 		.addFilterBefore(jwtAuthFilter,UsernamePasswordAuthenticationFilter.class);
-
 		return http.build();
 	}
 

@@ -20,6 +20,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Service	
 public class JwtService {
 
+	//256 bit hex secret key 
 	private static final String SECRET_KEY = "576E5A7234753778214125442A472D4B6150645367556B58703273357638792F";
 	
 	public String extractUsername(String token) {	
